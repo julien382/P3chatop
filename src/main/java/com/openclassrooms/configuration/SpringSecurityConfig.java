@@ -23,9 +23,10 @@ import com.nimbusds.jose.jwk.source.ImmutableSecret;
 
 @Configuration
 public class SpringSecurityConfig {
-
-	private String jwtKey = "toupdate.....";
-
+	
+	private String jwtKey = "toupdate....."; // Clé JWT statique (attention à la sécurité)
+	
+	// Configuration de la chaîne de filtres de sécurité
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http.csrf(csrf -> csrf.disable())
@@ -35,17 +36,20 @@ public class SpringSecurityConfig {
 				.httpBasic(Customizer.withDefaults()).build();
 	}
 
+	// Bean pour encoder les tokens JWT
 	@Bean
 	public JwtEncoder jwtEncoder() {
 		return new NimbusJwtEncoder(new ImmutableSecret<>(this.jwtKey.getBytes()));
 	}
 
+	// Bean pour encoder les tokens JWT
 	@Bean
 	public JwtDecoder jwtDecoder() {
 		SecretKeySpec secretKey = new SecretKeySpec(this.jwtKey.getBytes(), 0, this.jwtKey.getBytes().length, "RSA");
 		return NimbusJwtDecoder.withSecretKey(secretKey).macAlgorithm(MacAlgorithm.HS256).build();
 	}
 
+	// Configuration des utilisateurs en mémoire (à utiliser avec prudence en production)
 	@Bean
 	public UserDetailsService users() {
 		UserDetails user = User.builder().username("user").password(passwordEncoder().encode("password")).roles("USER")
@@ -53,6 +57,7 @@ public class SpringSecurityConfig {
 		return new InMemoryUserDetailsManager(user);
 	}
 
+	// Bean pour encoder les mots de passe des utilisateurs
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
