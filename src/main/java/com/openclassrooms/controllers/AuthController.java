@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.entity.User;
@@ -12,6 +13,7 @@ import com.openclassrooms.services.UserService;
 import com.openclassrooms.services.JWTService;
 
 @RestController
+@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
@@ -23,8 +25,8 @@ public class AuthController {
         this.jwtService = jwtService;
     }
 
-    @PostMapping("/auth/register")
-    public ResponseEntity<String> registerUser(@RequestBody User user) {
+    @PostMapping("/register")
+    public ResponseEntity<String> createUser(@RequestBody User user) {
         // Utilisez simplement la méthode createUser de UserService pour enregistrer l'utilisateur
         userService.createUser(user);
         return ResponseEntity.ok("User registered successfully");
@@ -35,4 +37,7 @@ public class AuthController {
         String token = jwtService.generateToken(authentication);
         return token;
     }
+
+    /*@PostMapping("/me")*/
+    
 }
