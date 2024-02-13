@@ -10,6 +10,7 @@ import com.openclassrooms.repository.UserRepository;
 @Service
 public class UserService {
 
+    // Déclaration des dépendances nécessaires
     @Autowired
     private UserRepository userRepository;
 
@@ -19,36 +20,39 @@ public class UserService {
     // Méthode pour enregistrer un nouvel utilisateur
     public User createUser(User user) {
         // Vérifiez si l'utilisateur existe déjà dans la base de données
-        if (userRepository.findByUsername(user.getUsername()) != null) {
+        if (userRepository.findByUsername(user.getName()) != null) {
             throw new RuntimeException("Username already exists");
         }
 
-        // Hasher le mot de passe avant de l'enregistrer
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setName(user.getName()); // Ajouter le name de l'utilisateur
+        user.setEmail(user.getEmail()); // Ajouter l'e-mail de l'utilisateur
+        user.setPassword(passwordEncoder.encode(user.getPassword())); // Hasher le mot de passe avant de l'enregistrer
+        return userRepository.save(user); // Enregistrez l'utilisateur dans la base de données
+    }
 
-        // Enregistrez l'utilisateur dans la base de données
-        return userRepository.save(user);
+    // Méthode pour authentifier un utilisateur
+    public User authenticateUser(String username, String password) {
+        // Récupérer l'utilisateur à partir de son nom d'utilisateur
+        User user = userRepository.findByUsername(username);
+        
+        // Vérifier si l'utilisateur existe
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        
+        // Vérifier si le mot de passe fourni correspond au mot de passe hashé stocké
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Invalid password");
+        }
+        
+        // Authentification réussie
+        return user;
     }
 
     // Méthode pour récupérer un utilisateur par son ID
     @SuppressWarnings("null")
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
-    }
-
-    // Méthode pour récupérer un utilisateur par son nom d'utilisateur
-    public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
-    // Méthode pour mettre à jour les informations de l'utilisateur
-    @SuppressWarnings("null")
-    public User updateUser(User user) {
-        // Vous pouvez implémenter la logique de mise à jour selon vos besoins
-        // Par exemple, vous pouvez vérifier si l'utilisateur existe dans la base de données
-        // et ensuite mettre à jour ses informations
-        // Ici, nous supposons simplement que l'utilisateur existe déjà dans la base de données
-        return userRepository.save(user);
     }
 
     // Méthode pour supprimer un utilisateur

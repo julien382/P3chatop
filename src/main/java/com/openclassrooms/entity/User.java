@@ -1,9 +1,14 @@
-package com.openclassrooms.entity; // Définit le package auquel appartient la classe
+package com.openclassrooms.entity;
 
-import javax.persistence.Entity; // Importe l'annotation Entity de javax.persistence pour définir la classe comme une entité JPA
-import javax.persistence.GeneratedValue; // Importe l'annotation GeneratedValue de javax.persistence pour spécifier la génération automatique de la valeur de la clé primaire
-import javax.persistence.GenerationType; // Importe l'enum GenerationType de javax.persistence pour spécifier la stratégie de génération de la clé primaire
-import javax.persistence.Id; // Importe l'annotation Id de javax.persistence pour spécifier la clé primaire de l'entité
+import java.time.LocalDateTime;
+
+import javax.persistence.Entity; 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType; 
+import javax.persistence.Id;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity // Indique que la classe User est une entité JPA, ce qui signifie qu'elle est mappée à une table dans la base de données
 public class User {
@@ -12,8 +17,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Indique que la valeur de l'attribut id est générée automatiquement par la base de données
     private Long id; // Déclare un attribut id de type Long
 
-    private String username; // Déclare un attribut username de type String
-    private String password; // Déclare un attribut password de type String
+    private String name; 
+
+    private String email; 
+
+    private String password; 
+
+    @CreationTimestamp
+    private LocalDateTime created_at;
+
+    @UpdateTimestamp
+    private LocalDateTime updated_at;
 
     // Constructeur par défaut (nécessaire pour JPA)
     public User() {
@@ -28,12 +42,20 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
