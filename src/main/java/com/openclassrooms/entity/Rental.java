@@ -2,9 +2,9 @@ package com.openclassrooms.entity;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -18,7 +18,7 @@ public class Rental {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Indique que la valeur de l'attribut id est générée automatiquement par la base de données
     private Long id;
 
-    private String name;
+   /* private String name;
 
     private Integer surface;
 
@@ -26,7 +26,7 @@ public class Rental {
 
     private String picture;
 
-    private String description;
+    private String description;*/
 
     @CreationTimestamp
     private LocalDateTime created_at;
