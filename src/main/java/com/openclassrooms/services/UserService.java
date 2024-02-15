@@ -20,7 +20,7 @@ public class UserService {
     // Méthode pour enregistrer un nouvel utilisateur
     public User createUser(User user) {
         // Vérifiez si l'utilisateur existe déjà dans la base de données
-        if (userRepository.findByUsername(user.getName()) != null) {
+        if (userRepository.findByName(user.getName()) != null) {
             throw new RuntimeException("Username already exists");
         }
 
@@ -31,9 +31,9 @@ public class UserService {
     }
 
     // Méthode pour authentifier un utilisateur
-    public User authenticateUser(String username, String password) {
+    public User authenticateUser(String name, String password) {
         // Récupérer l'utilisateur à partir de son nom d'utilisateur
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByName(name);
         
         // Vérifier si l'utilisateur existe
         if (user == null) {

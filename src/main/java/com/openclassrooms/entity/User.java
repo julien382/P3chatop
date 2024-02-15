@@ -2,6 +2,7 @@ package com.openclassrooms.entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity; 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType; 
@@ -21,10 +22,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Indique que la valeur de l'attribut id est générée automatiquement par la base de données
     private Long id; // Déclare un attribut id de type Long
 
+    @Column
     private String name; 
 
+    @Column
     private String email; 
 
+    @Column
     private String password; 
 
     @CreationTimestamp

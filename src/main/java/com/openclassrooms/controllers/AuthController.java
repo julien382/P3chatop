@@ -13,7 +13,7 @@ import com.openclassrooms.services.UserService;
 import com.openclassrooms.services.JWTService;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
