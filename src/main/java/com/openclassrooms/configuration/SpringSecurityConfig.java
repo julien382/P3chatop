@@ -42,7 +42,7 @@ public class SpringSecurityConfig {
 		return new NimbusJwtEncoder(new ImmutableSecret<>(this.jwtKey.getBytes()));
 	}
 
-	// Bean pour encoder les tokens JWT
+	// Bean pour decoder les tokens JWT
 	@Bean
 	public JwtDecoder jwtDecoder() {
 		SecretKeySpec secretKey = new SecretKeySpec(this.jwtKey.getBytes(), 0, this.jwtKey.getBytes().length, "RSA");
