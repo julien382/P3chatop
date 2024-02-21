@@ -36,8 +36,8 @@ public class SpringSecurityConfig {
 																	"/api/auth/login"
 																	)
 				.permitAll().anyRequest().authenticated())
-				.oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
-				.httpBasic(Customizer.withDefaults()).build();
+				.oauth2ResourceServer((oauth2) -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder())))
+				.build();
 	}
 
 	// Bean pour encoder les tokens JWT
