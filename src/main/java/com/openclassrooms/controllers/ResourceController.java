@@ -8,7 +8,7 @@ public class ResourceController {
 
 	@GetMapping("/")
 	public String getResource() {
-		return "a value...";
+		return "a value.....";
 	}
 
 }
