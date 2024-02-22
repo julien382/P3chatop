@@ -2,6 +2,7 @@ package com.openclassrooms.configuration;
 
 import javax.crypto.spec.SecretKeySpec;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -24,7 +25,8 @@ import com.nimbusds.jose.jwk.source.ImmutableSecret;
 @Configuration
 public class SpringSecurityConfig {
 	
-	private String jwtKey = "MaoMCfSiuncRcMfraSQLw9Vw4yRRetVc"; // Clé JWT statique (attention à la sécurité)
+	@Value("${jwt.key}")
+	private String jwtKey;
 	
 	// Configuration de la chaîne de filtres de sécurité
 	@Bean
