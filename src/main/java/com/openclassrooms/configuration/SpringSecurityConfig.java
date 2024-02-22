@@ -56,8 +56,7 @@ public class SpringSecurityConfig {
 	// Configuration des utilisateurs en mémoire (à utiliser avec prudence en production)
 	@Bean
 	public UserDetailsService users() {
-		UserDetails user = User.builder().username("user").password(passwordEncoder().encode("password")).roles("USER")
-				.build();
+		UserDetails user = User.builder().username("user").password(passwordEncoder().encode("password")).roles("USER").build();
 		return new InMemoryUserDetailsManager(user);
 	}
 
