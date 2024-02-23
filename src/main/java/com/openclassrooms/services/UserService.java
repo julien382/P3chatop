@@ -1,9 +1,16 @@
 package com.openclassrooms.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.openclassrooms.dto.LoginDTO;
+import com.openclassrooms.dto.RegisterDTO;
+import com.openclassrooms.dto.UserDTO;
 import com.openclassrooms.entity.User;
 import com.openclassrooms.repository.UserRepository;
 
@@ -17,43 +24,40 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    private AuthenticationManager authenticationManager;
+
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+    }
+
     // Méthode pour enregistrer un nouvel utilisateur
-    public User registerNewUser(User user) {
-        user.setName(user.getName()); // Ajouter le name de l'utilisateur
-        user.setEmail(user.getEmail()); // Ajouter l'e-mail de l'utilisateur
-        user.setPassword(passwordEncoder.encode(user.getPassword())); // Hasher le mot de passe avant de l'enregistrer
-        User savedUser = userRepository.save(user); // Enregistrez l'utilisateur dans la base de données
-        return savedUser; 
+    public void registerNewUser(RegisterDTO registerDTO) {
+        User user = new User();
+        user.setEmail(registerDTO.getEmail());
+        user.setName(registerDTO.getName());
+        user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+        User savedUser = userRepository.save(user);
+        
+        // Créer un UserDTO à partir des informations de l'utilisateur enregistré
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(savedUser.getId());
+        userDTO.setEmail(savedUser.getEmail());
+        userDTO.setName(savedUser.getName());
     }
 
     // Méthode pour authentifier un utilisateur
-    public User authenticateUser(String name, String password) {
-        // Récupérer l'utilisateur à partir de son nom d'utilisateur
-        User user = userRepository.findByName(name);
-        
-        // Vérifier si l'utilisateur existe
-        if (user == null) {
-            throw new RuntimeException("User not found");
-        }
-        
-        // Vérifier si le mot de passe fourni correspond au mot de passe hashé stocké
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid password");
-        }
-        
-        // Authentification réussie
-        return user;
+    public Authentication authenticateUser(LoginDTO loginDTO) {
+        Authentication authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return authentication; // Authentification réussie
     }
 
     // Méthode pour récupérer un utilisateur par son ID
     @SuppressWarnings("null")
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
-    }
-
-    // Méthode pour supprimer un utilisateur
-    @SuppressWarnings("null")
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
     }
 }

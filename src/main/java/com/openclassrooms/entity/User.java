@@ -7,12 +7,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType; 
 import jakarta.persistence.Id;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+@Data
 @Entity // Indique que la classe User est une entité JPA, ce qui signifie qu'elle est mappée à une table dans la base de données
 @Getter
 @Setter

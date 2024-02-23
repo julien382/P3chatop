@@ -55,7 +55,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-        </dependency>
+    </dependency>
+    <dependency>
+        <groupId>org.modelmapper</groupId>
+        <artifactId>modelmapper</artifactId>
+        <version>2.4.5</version> <!-- Assurez-vous de spécifier la version souhaitée -->
+    </dependency>
 </dependencies>
 
 

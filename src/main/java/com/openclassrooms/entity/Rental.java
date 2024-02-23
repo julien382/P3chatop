@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Data;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -14,6 +15,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
+@Data
 @Entity
 public class Rental {
 
