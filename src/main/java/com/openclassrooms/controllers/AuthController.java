@@ -43,7 +43,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> getToken(Authentication authentication) {
+    public ResponseEntity<Map<String, String>> login(Authentication authentication) {
         String token = jwtService.generateToken(authentication);
         return ResponseEntity.ok(Collections.singletonMap("token", token));
     }
