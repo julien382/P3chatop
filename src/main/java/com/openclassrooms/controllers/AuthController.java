@@ -29,7 +29,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> createUser(@RequestBody User user) {
         // Utilisez simplement la méthode createUser de UserService pour enregistrer l'utilisateur
-        userService.createUser(user);
+        userService.registerNewUser(user);
 
         String token = jwtService.generateToken(new UsernamePasswordAuthenticationToken(user.getName(), user.getPassword()));
 

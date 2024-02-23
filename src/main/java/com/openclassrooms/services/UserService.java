@@ -18,16 +18,12 @@ public class UserService {
     private BCryptPasswordEncoder passwordEncoder;
 
     // Méthode pour enregistrer un nouvel utilisateur
-    public User createUser(User user) {
-        // Vérifiez si l'utilisateur existe déjà dans la base de données
-        if (userRepository.findByName(user.getName()) != null) {
-            throw new RuntimeException("Username already exists");
-        }
-
+    public User registerNewUser(User user) {
         user.setName(user.getName()); // Ajouter le name de l'utilisateur
         user.setEmail(user.getEmail()); // Ajouter l'e-mail de l'utilisateur
         user.setPassword(passwordEncoder.encode(user.getPassword())); // Hasher le mot de passe avant de l'enregistrer
-        return userRepository.save(user); // Enregistrez l'utilisateur dans la base de données
+        User savedUser = userRepository.save(user); // Enregistrez l'utilisateur dans la base de données
+        return savedUser; 
     }
 
     // Méthode pour authentifier un utilisateur

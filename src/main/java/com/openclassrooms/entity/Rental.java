@@ -24,21 +24,21 @@ public class Rental {
     @Column
     private String name;
 
+    @Column
+    private Integer surface;
+    
+    @Column
+    private Integer price;
+    
+    @Column
+    private String picture;
+    
+    @Column
+    private String description;
+
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner;
-
-    @Column
-    private Integer surface;
-
-    @Column
-    private Integer price;
-
-    @Column
-    private String picture;
-
-    @Column
-    private String description;
 
     @CreationTimestamp
     private LocalDateTime created_at;
