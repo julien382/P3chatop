@@ -6,8 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+/*import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;*/
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,8 +28,8 @@ public class AuthController {
 
     private JWTService jwtService;
 
-    @Autowired     
-    private AuthenticationManager authenticationManager;
+   /*  @Autowired     
+    private AuthenticationManager authenticationManager;*/
 
     public AuthController(JWTService jwtService, UserService userService) {
         this.jwtService = jwtService;
@@ -47,20 +47,13 @@ public class AuthController {
         String token = jwtService.generateToken(authentication);
         return ResponseEntity.ok(Collections.singletonMap("token", token));
     }
-   
+
     @PostMapping(value = "/login", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginDTO loginDTO) {
-
-        Authentication authenticationRequest =
-                UsernamePasswordAuthenticationToken.unauthenticated(loginDTO.getEmail(), loginDTO.getPassword());
-
-        Authentication authenticationResponse =
-                authenticationManager.authenticate(authenticationRequest);
-
-        String token = jwtService.generateToken(authenticationResponse);
+        Authentication authentication = userService.authenticateUser(loginDTO);
+        String token = jwtService.generateToken(authentication);
         return ResponseEntity.ok(Collections.singletonMap("token", token));
     }
-
     /*@PostMapping("/me")*/
     
 }
