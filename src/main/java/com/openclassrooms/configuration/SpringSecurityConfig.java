@@ -35,18 +35,16 @@ public class SpringSecurityConfig {
 	// Configuration de la chaîne de filtres de sécurité
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		return http.csrf(csrf -> csrf.disable())
-				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.authorizeHttpRequests(auth -> auth.requestMatchers(
-					"/api/auth/register", 
-								"/api/auth/login"
-					)
-					.permitAll().anyRequest().authenticated())
-					.oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
-					.httpBasic(Customizer.withDefaults()).build();
-					/* 
-				.oauth2ResourceServer((oauth2) -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder())))
-				.build(); */
+		http.csrf(csrf -> csrf.disable());
+		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+		http.authorizeHttpRequests(auth -> auth.requestMatchers(
+			"/api/auth/register", 
+						"/api/auth/login"
+			)
+			.permitAll().anyRequest().authenticated());
+		http.oauth2ResourceServer((oauth2) -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder())));
+		http.httpBasic(Customizer.withDefaults());
+		return http.build();
 	}
 
 	// Bean pour encoder les tokens JWT

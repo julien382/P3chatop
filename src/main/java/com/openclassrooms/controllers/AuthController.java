@@ -49,18 +49,18 @@ public class AuthController {
     }
 
 
-    /*@PostMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(Authentication authentication) {
         String token = jwtService.generateToken(authentication);
         return ResponseEntity.ok(Collections.singletonMap("token", token));
-    } */
-    
+    }
+    /*
     @PostMapping(value = "/login", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginDTO loginDTO) {
         Authentication authentication = userService.authenticateUser(loginDTO);
         String token = jwtService.generateToken(authentication);
         return ResponseEntity.ok(Collections.singletonMap("token", token));
-    }
+    } */
     /*@PostMapping("/me")*/
     
 }
