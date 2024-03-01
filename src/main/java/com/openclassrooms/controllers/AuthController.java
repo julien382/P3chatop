@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.dto.LoginDTO;
 import com.openclassrooms.dto.RegisterDTO;
+import com.openclassrooms.entity.User;
 import com.openclassrooms.services.UserService;
 import com.openclassrooms.services.JWTService;
 
@@ -39,12 +40,12 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(@RequestBody RegisterDTO registerDTO) {
         // Utilisez simplement la méthode register de UserService pour enregistrer l'utilisateur
-        userService.registerNewUser(registerDTO);
+        /*userService.registerNewUser(registerDTO);
         LoginDTO loginDTO = new LoginDTO();
         loginDTO.setEmail(registerDTO.getEmail());
-        loginDTO.setPassword(registerDTO.getPassword());
-        Authentication authentication = userService.authenticateUser(loginDTO);
-        String token = jwtService.generateToken(authentication);
+        loginDTO.setPassword(registerDTO.getPassword());*/
+        User user = userService.registerNewUser(registerDTO);    
+        String token = jwtService.generateToken(user.getId());
         return ResponseEntity.ok(Collections.singletonMap("token", token));
     }
 
@@ -57,9 +58,9 @@ public class AuthController {
     
     @PostMapping(value = "/login", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginDTO loginDTO) {
-        Authentication authentication = userService.authenticateUser(loginDTO);
-        String token = jwtService.generateToken(authentication);
-        return ResponseEntity.ok(Collections.singletonMap("token", token));
+        //Authentication authentication = userService.authenticateUser(loginDTO);
+        //String token = jwtService.generateToken(authentication);
+        return ResponseEntity.ok(Collections.singletonMap("token", "sfsf"));
     } 
     /*@PostMapping("/me")*/
     

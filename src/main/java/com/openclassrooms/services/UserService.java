@@ -33,18 +33,12 @@ public class UserService {
     }
 
     // Méthode pour enregistrer un nouvel utilisateur
-    public void registerNewUser(RegisterDTO registerDTO) {
+    public User registerNewUser(RegisterDTO registerDTO) {
         User user = new User();
         user.setEmail(registerDTO.getEmail());
         user.setName(registerDTO.getName());
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-        User savedUser = userRepository.save(user);
-        
-        // Créer un UserDTO à partir des informations de l'utilisateur enregistré
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(savedUser.getId());
-        userDTO.setEmail(savedUser.getEmail());
-        userDTO.setName(savedUser.getName());
+        return userRepository.save(user);
     }
 
     // Méthode pour authentifier un utilisateur
