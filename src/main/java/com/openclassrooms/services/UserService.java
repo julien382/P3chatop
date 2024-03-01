@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +48,21 @@ public class UserService {
             new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return authentication; // Authentification réussie
+    }
+
+    // Méthode pour récupérer les infos d'un utilisateur
+    public UserDTO getCurrentUser(Authentication authentication) {
+        User user = userRepository.findAll().stream()
+                .filter(u -> u.getEmail().equals(authentication.getName()))
+                .findFirst()
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setName(user.getName());
+        userDTO.setCreated_at(user.getCreated_at());
+        userDTO.setUpdated_at(user.getUpdated_at());
+        return userDTO;
     }
 
     // Méthode pour récupérer un utilisateur par son ID
