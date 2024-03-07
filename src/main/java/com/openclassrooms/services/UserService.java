@@ -1,5 +1,7 @@
 package com.openclassrooms.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,6 +42,17 @@ public class UserService {
         user.setName(registerDTO.getName());
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         return userRepository.save(user);
+    }
+
+
+    public User loginUser(LoginDTO loginDTO) {
+        Optional<User> user = userRepository.findByEmail(loginDTO.getEmail());
+        if (user.get() == null) {
+            return null;
+        }
+        else {
+            return user.get();
+        }
     }
 
     // Méthode pour authentifier un utilisateur

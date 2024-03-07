@@ -62,7 +62,9 @@ public class AuthController {
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginDTO loginDTO) {
         //Authentication authentication = userService.authenticateUser(loginDTO);
         //String token = jwtService.generateToken(authentication);
-        return ResponseEntity.ok(Collections.singletonMap("token", "sfsf"));
+        User user = userService.loginUser(loginDTO); 
+        String token = jwtService.generateToken(user.getId());
+        return ResponseEntity.ok(Collections.singletonMap("token", token));
     } 
 
     @GetMapping("/me")

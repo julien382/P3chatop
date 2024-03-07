@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType; 
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity // Indique que la classe User est une entité JPA, ce qui signifie qu'elle est mappée à une table dans la base de données
 @Getter
 @Setter
+@Table(name = "Users")
 public class User {
 
     @Id // Indique que l'attribut id est la clé primaire de l'entité
