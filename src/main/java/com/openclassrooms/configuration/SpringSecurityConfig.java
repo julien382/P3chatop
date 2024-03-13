@@ -55,7 +55,8 @@ public class SpringSecurityConfig {
                         auth
                                 .requestMatchers(
                                         "/api/auth/login",
-                                        "/api/auth/register"
+                                        "/api/auth/register",
+                                        "/api/auth/me"
                                 )
                                 .permitAll()
                                 .anyRequest()
