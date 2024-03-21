@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 //import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -50,21 +51,39 @@ public class SpringSecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                //.oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
-                .authorizeHttpRequests(auth ->
-                        auth
-                                .requestMatchers(
-                                        "/api/auth/login",
-                                        "/api/auth/register",
-                                        "/api/auth/me"
-                                )
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated()
-                                )
+                .authorizeHttpRequests(auth -> {
+                        auth.requestMatchers(
+                                "/api/auth/login",
+                                "/api/auth/register"
+                                ).permitAll();
+                                auth.anyRequest().authenticated();
+                        })
+                        .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
                 .build();
     }
 
+    /*@Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                //.csrf(csrf -> csrf.disable())
+                //.cors(cors -> cors.disable())
+                //.httpBasic(httpBasic -> httpBasic.disable())
+               // .sessionManagement(session ->
+                 //       session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                //)
+                //.oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
+                .authorizeHttpRequests(auth -> {
+                        auth.requestMatchers(
+                    "/api/auth/login",
+                                "/api/auth/register",
+                                "/api/auth/me"
+                                ).permitAll();
+                        auth.anyRequest().authenticated();
+                })
+                .build();
+    }*/
+
+    
     /**
      * Configures the JwtDecoder bean for JWT token decoding.
      *
