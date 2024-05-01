@@ -83,24 +83,15 @@ public class UserService {
             throw new UsernameNotFoundException("User not found");
         }
     }*/
-    public UserDTO getCurrentUser(Authentication authentication) {
-        String userEmail = authentication.getName(); // Obtenez l'email de l'utilisateur authentifié
-        Optional<User> userOptional = userRepository.findByEmail(userEmail);
-        
-        // Vérifie si l'utilisateur existe dans la base de données
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            UserDTO userDTO = new UserDTO();
-            userDTO.setId(user.getId());
-            userDTO.setEmail(user.getEmail());
-            userDTO.setName(user.getName());
-            userDTO.setCreated_at(user.getCreated_at());
-            userDTO.setUpdated_at(user.getUpdated_at());
-            return userDTO;
-        } else {
-            // Gérer le cas où l'utilisateur n'est pas trouvé
-            throw new UsernameNotFoundException("User not found");
+    public Optional<User> getMe() {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+    
+        Optional<User> user = userRepository.findById(Long.parseLong(name));
+    
+        if (user.isPresent()) {
+            return user;
         }
+        return null;
     }
 
      /* public UserDTO getCurrentUser(Authentication authentication) {

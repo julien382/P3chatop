@@ -76,22 +76,20 @@ public class AuthController {
     } 
 
     @GetMapping("/me")
-    public ResponseEntity<UserDTO> getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            logger.info("log authentication: {}", authentication);
-            String userEmail = authentication.getName();
-            logger.info("User email: {}", userEmail);
-            UserDTO userDTO = userService.getCurrentUser(authentication);
-            logger.info("User DTO: {}", userDTO);
-            return ResponseEntity.ok(userDTO);
-        } else {
-            // Gérer le cas où l'utilisateur n'est pas authentifié
-            logger.warn("User not authenticated");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<UserDTO> getMe() {
+        Optional<User> user;
+        try {
+            user = userService.getMe();
         }
+        catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+        }
+        if (user.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+        return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
-
     /*  @GetMapping("/me")
     public ResponseEntity<UserDTO> getCurrentUser(Authentication authentication) {
         UserDTO userDTO = userService.getCurrentUser(authentication);
