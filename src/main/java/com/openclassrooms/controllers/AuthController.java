@@ -24,6 +24,8 @@ import com.openclassrooms.dto.UserDTO;
 import com.openclassrooms.entity.User;
 import com.openclassrooms.services.UserService;
 import com.openclassrooms.services.JWTService;
+import java.util.Optional;
+import org.modelmapper.ModelMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +33,8 @@ import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+    ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
     private UserService userService;
