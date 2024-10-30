@@ -67,11 +67,8 @@ public class RentalService {
     // Méthode pour créer un nouvel objet Rental
     public void createRental(RentalRequestDTO rentalRequestDTO, Principal principal) {
         try {
-            String email = principal.getName();
-            User owner = userRepository.findAll().stream()
-                    .filter(user -> user.getEmail().equals(email))
-                    .findFirst()
-                    .orElseThrow(() -> new NoSuchElementException("User not found with email : " + email));
+            String id = principal.getName();
+            User owner = userRepository.findById(Long.valueOf(id)).get();
             rentalRequestDTO.setOwner_id(owner.getId());
 
             // Sauvegarde de l'image
@@ -101,6 +98,7 @@ public class RentalService {
             savedRentalDTO.setOwner_id(savedRental.getOwner().getId());
             savedRentalDTO.setId(savedRental.getId()); // Définition de l'ID dans RentalDTO
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("Error while creating rental: " + e.getMessage());
         }
     }
