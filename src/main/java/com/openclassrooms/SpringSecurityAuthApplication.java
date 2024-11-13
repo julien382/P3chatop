@@ -24,8 +24,8 @@ public class SpringSecurityAuthApplication {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("P3Chatop")
+                        .title("Votre API Title")
                         .version("1.0.0")
-                        .description("ChâTop, société de location immobilière"));
+                        .description("Description de votre API"));
     }
 }
