@@ -81,7 +81,7 @@ public class SpringSecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .securityMatcher("/actuator/**", "/auth/register", "/v3/api-docs/**", "/swagger-ui/**")
+                .securityMatcher("/actuator/**", "/auth/register", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**")
                 .authorizeHttpRequests(auth -> {
                     auth.anyRequest().permitAll();
                 })
